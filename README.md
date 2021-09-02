@@ -164,12 +164,12 @@ BCRYPT_SALT=15
         {
             "fullname": "aditya limaye1",
             "mobile": "8888888888",
-            "email": "aditya1@aditya.com"
+            "email": "aditya1@limaye.com"
         },
         {
             "fullname": "aditya limaye",
             "mobile": "9999999999",
-            "email": "limaye@limaye.com"
+            "email": "aditya@limaye.com"
         }
     ]
 }
