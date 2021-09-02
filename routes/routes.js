@@ -104,8 +104,8 @@ router.post('/login', validate, async (req, res) => {
             if (user && (await bcrypt.compare(password, user.password))) {
                 const token = jwt.sign({
                         _id: user._id,
-                        email,
-                        role: user.role
+                        email
+                        
                     },
                     process.env.APP_KEY, {
                         expiresIn: "1h",
@@ -113,7 +113,8 @@ router.post('/login', validate, async (req, res) => {
                 );
                 res.status(200).json({
                     email,
-                    token
+                    token,
+                    role: user.role
                 });
             } else {
                 res.status(400).json({
@@ -186,7 +187,9 @@ router.get('/self', authenticate, async (req, res) => {
                 fullname: user.fullname,
                 email: user.email,
                 mobile: user.mobile,
-                profile_picture: user.profile_picture
+                role: user.role,
+                profile_picture: user.profile_picture,
+                is_subscribed: user.is_subscribed
             })
         }
     } catch (error) {
@@ -232,7 +235,7 @@ router.put('/updateprofile', [authenticate, validate], async (req, res) => {
             email: req.body.email
         });
         const {
-            email = user.email, fullname = user.fullname, mobile = user.mobile
+            email = user.email, fullname = user.fullname, mobile = user.mobile, is_subscribed = user.is_subscribed
         } = req.body;
 
         if (await User.updateOne({
@@ -240,7 +243,8 @@ router.put('/updateprofile', [authenticate, validate], async (req, res) => {
             }, {
                 email,
                 fullname,
-                mobile
+                mobile,
+                is_subscribed
             })) {
             res.status(200).json({
                 message: "User updated successfully."
@@ -316,15 +320,22 @@ router.put('/updateprofilepictureurl', [authenticate, validate], async (req, res
 router.post('/article', [validate, authenticate], async (req, res) => {
     try {
         const {
-            title,
-            body
+            property_details : {
+                property_type,
+                description,
+                n_bhk
+            },
+            address : {
+                city,
+                area_details
+            },
+            quoted_price,
+            is_approved,
+            intrests
+
         } = req.body;
 
-        if (!(title && body)) {
-            res.status(400).json({
-                error: "All inputs are required."
-            });
-        }
+ 
         if (await User.findOne({
                 email: req.user.email
             }) == null) {
@@ -334,8 +345,18 @@ router.post('/article', [validate, authenticate], async (req, res) => {
         } else {
             const article = await Article.create({
                 _id: uuid.v4(),
-                title,
-                body,
+                property_details : {
+                    property_type,
+                    description,
+                    n_bhk
+                },
+                address : {
+                    city,
+                    area_details
+                },
+                quoted_price,
+                is_approved,
+                intrests,
                 author: req.user.email
             });
 
@@ -356,20 +377,42 @@ router.put('/updatearticle', [validate, authenticate], async (req, res) => {
     try {
         const {
             _id,
-            title,
-            body
+            property_details : {
+                property_type,
+                description,
+                n_bhk
+            },
+            address : {
+                city,
+                area_details
+            },
+            quoted_price,
+            is_approved,
+            intrests
+
         } = req.body;
-        if (!(_id && title && body)) {
+        
+        if (!_id) {
             res.status(400).json({
-                error: "ID, title and body is required."
+                error: "ID is required."
             });
         }
 
         if (await Article.updateOne({
                 _id
             }, {
-                title,
-                body
+                property_details : {
+                    property_type,
+                    description,
+                    n_bhk
+                },
+                address : {
+                    city,
+                    area_details
+                },
+                quoted_price,
+                is_approved,
+                intrests    
             })) {
             res.status(200).json({
                 message: `Article ${_id} updated successfully`
