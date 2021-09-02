@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const articleSchema = new mongoose.Schema({
+const advertisementSchema = new mongoose.Schema({
     _id: {
         type: String
     },
@@ -35,4 +35,4 @@ const articleSchema = new mongoose.Schema({
         timestamps: true
     });
 
-module.exports = mongoose.model('article', articleSchema)
+module.exports = mongoose.model('advertisement', advertisementSchema)

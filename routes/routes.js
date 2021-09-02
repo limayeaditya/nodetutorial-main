@@ -1,6 +1,6 @@
 require('dotenv').config();
 const User = require('../models/user');
-const Article = require('../models/article')
+const Advertisement = require('../models/advertisement')
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const router = express.Router();
@@ -317,7 +317,7 @@ router.put('/updateprofilepictureurl', [authenticate, validate], async (req, res
     }
 });
 
-router.post('/article', [validate, authenticate], async (req, res) => {
+router.post('/advertisement', [validate, authenticate], async (req, res) => {
     try {
         const {
             property_details : {
@@ -343,7 +343,7 @@ router.post('/article', [validate, authenticate], async (req, res) => {
                 error: "This author does not exists."
             })
         } else {
-            const article = await Article.create({
+            const advertisement = await Advertisement.create({
                 _id: uuid.v4(),
                 property_details : {
                     property_type,
@@ -361,8 +361,8 @@ router.post('/article', [validate, authenticate], async (req, res) => {
             });
 
             res.status(201).json({
-                message: "Article created successfully",
-                id: article.id
+                message: "advertisement created successfully",
+                id: advertisement.id
             });
         }
 
@@ -373,7 +373,7 @@ router.post('/article', [validate, authenticate], async (req, res) => {
     }
 });
 
-router.put('/updatearticle', [validate, authenticate], async (req, res) => {
+router.put('/updateadvertisement', [validate, authenticate], async (req, res) => {
     try {
         const {
             _id,
@@ -398,7 +398,7 @@ router.put('/updatearticle', [validate, authenticate], async (req, res) => {
             });
         }
 
-        if (await Article.updateOne({
+        if (await Advertisement.updateOne({
                 _id
             }, {
                 property_details : {
@@ -415,7 +415,7 @@ router.put('/updatearticle', [validate, authenticate], async (req, res) => {
                 intrests    
             })) {
             res.status(200).json({
-                message: `Article ${_id} updated successfully`
+                message: `advertisement ${_id} updated successfully`
             });
         }
 
@@ -427,7 +427,7 @@ router.put('/updatearticle', [validate, authenticate], async (req, res) => {
 });
 
 
-router.delete('/article', [validate, authenticate], async (req, res) => {
+router.delete('/advertisement', [validate, authenticate], async (req, res) => {
     try {
         const {
             _id
@@ -435,22 +435,22 @@ router.delete('/article', [validate, authenticate], async (req, res) => {
 
         if (!(_id)) {
             res.status(400).json({
-                error: "Article id is required."
+                error: "advertisement id is required."
             });
         }
-        if (await Article.findOne({
+        if (await Advertisement.findOne({
                 _id
             }) == null) {
             res.status(400).json({
-                error: "This article does not exists."
+                error: "This advertisement does not exists."
             })
         } else {
-            await Article.deleteOne({
+            await Advertisement.deleteOne({
                 _id
             });
 
             res.status(201).json({
-                message: "Article deleted successfully",
+                message: "advertisement deleted successfully",
             });
         }
 
@@ -461,11 +461,11 @@ router.delete('/article', [validate, authenticate], async (req, res) => {
     }
 });
 
-router.get('/articles', authenticate, async (req, res) => {
+router.get('/advertisements', authenticate, async (req, res) => {
     try {
-        const articles = await Article.find({}).sort();
+        const advertisements = await Advertisement.find({}).sort();
         res.status(200).json({
-            articles
+            advertisements
         });
     } catch (error) {
         res.status(400).json({
@@ -474,13 +474,13 @@ router.get('/articles', authenticate, async (req, res) => {
     }
 });
 
-router.get('/myarticles', authenticate, async (req, res) => {
+router.get('/myadvertisements', authenticate, async (req, res) => {
     try {
-        const articles = await Article.find({
+        const advertisements = await Advertisement.find({
             author: req.user.email
         }).sort();
         res.status(200).json({
-            articles
+            advertisements
         });
     } catch (error) {
         res.status(400).json({
