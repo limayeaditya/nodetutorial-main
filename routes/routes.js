@@ -321,6 +321,7 @@ router.post('/advertisement', [validate, authenticate], async (req, res) => {
     try {
         const {
             property_details : {
+                property_title,
                 property_type,
                 description,
                 n_bhk
@@ -346,6 +347,7 @@ router.post('/advertisement', [validate, authenticate], async (req, res) => {
             const advertisement = await Advertisement.create({
                 _id: uuid.v4(),
                 property_details : {
+                    property_title,
                     property_type,
                     description,
                     n_bhk
@@ -378,6 +380,7 @@ router.put('/updateadvertisement', [validate, authenticate], async (req, res) =>
         const {
             _id,
             property_details : {
+                property_title,
                 property_type,
                 description,
                 n_bhk
@@ -402,6 +405,7 @@ router.put('/updateadvertisement', [validate, authenticate], async (req, res) =>
                 _id
             }, {
                 property_details : {
+                    property_title,
                     property_type,
                     description,
                     n_bhk
@@ -461,7 +465,7 @@ router.delete('/advertisement', [validate, authenticate], async (req, res) => {
     }
 });
 
-router.get('/advertisements', authenticate, async (req, res) => {
+router.get('/advertisements', async (req, res) => {
     try {
         const advertisements = await Advertisement.find({}).sort();
         res.status(200).json({
