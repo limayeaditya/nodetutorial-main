@@ -494,6 +494,32 @@ router.get('/myadvertisements', authenticate, async (req, res) => {
     }
 });
 
+router.get('/advertisements/:id', [validate, authenticate], async (req, res) => {
+    try {
+        const _id = req.params.id        
+        if (await Advertisement.findOne({
+                _id
+            }) == null) {
+            res.status(400).json({
+                error: "This advertisement does not exists."
+            })
+        } else {
+            const advertisement = await Advertisement.findOne({
+                _id
+            }).sort();
+
+            res.status(200).json({
+                advertisement
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+});
+
 router.get('/', async (req, res) => {
     res.status(200).json({
         message: "This app works"
