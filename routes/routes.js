@@ -39,166 +39,14 @@ const upload = multer({
     }
 }).single('profile-picture');
 
-router.post('/register', validate, async (req, res) => {
-    try {
-        const {
-            fullname,
-            mobile,
-            email,
-            password,
-            role,
-            is_subscribed
-        } = req.body;
+router.post('/register', validate, async (req,res)=>{ require('./authentication/register').registerUser(req,res)})
 
-        if (!(fullname && mobile && email && password)) {
-            res.status(400).json({
-                error: "All inputs are required."
-            });
-        }
-        if (await User.findOne({
-                email
-            })) {
-            res.status(400).json({
-                error: "This user already exists."
-            })
-        }
-        const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT))
-        const encrypted_password = await bcrypt.hash(password, salt)
+router.post('/login', validate, async (req, res) => { require('./authentication/login').loginUser(req,res)});
 
-        const user = await User.create({
-            _id: uuid.v4(),
-            fullname,
-            mobile,
-            email,
-            password: encrypted_password,
-            role,
-            is_subscribed
-        });
-
-        res.status(201).json({
-            message: "User created successfully",
-            user
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.message
-        });
-    }
-});
-
-router.post('/login', validate, async (req, res) => {
-    try {
-        const {
-            email,
-            password
-        } = req.body;
-        if (!(email && password)) {
-            res.status(400).json({
-                error: "Email and password is required."
-            })
-        } else {
-            const user = await User.findOne({
-                email
-            });
-
-            if (user && (await bcrypt.compare(password, user.password))) {
-                const token = jwt.sign({
-                        _id: user._id,
-                        email
-                        
-                    },
-                    process.env.APP_KEY, {
-                        expiresIn: "1h",
-                    }
-                );
-                res.status(200).json({
-                    email,
-                    token,
-                    role: user.role
-                });
-            } else {
-                res.status(400).json({
-                    error: "Email or password is incorrect"
-                });
-            }
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
-
-router.put('/changepassword', [validate, authenticate], async (req, res) => {
-    try {
-        const {
-            old_password,
-            new_password
-        } = req.body;
-        if (!(old_password && new_password)) {
-            res.status(400).json({
-                error: "Old password and new password is required."
-            });
-        }
-
-        const user = await User.findOne({
-            email: req.user.email
-        });
-
-        if (user && (await bcrypt.compare(old_password, user.password))) {
-            const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
-            const encrypted_password = await bcrypt.hash(new_password, salt);
-            if (await User.updateOne({
-                    email: req.user.email
-                }, {
-                    password: encrypted_password
-                })) {
-                res.status(200).json({
-                    message: `Password updated for user: ${req.user.email}`
-                });
-            } else {
-                res.status(500).json({
-                    error: "Internal Error."
-                });
-            }
-
-        } else {
-            res.status(403).json({
-                error: "Email or password is incorrect"
-            });
-        }
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
+router.put('/changepassword', [validate, authenticate], async (req, res) => {require('./profile/changePassword').changepassword(req,res)});
 
 
-router.get('/self', authenticate, async (req, res) => {
-    try {
-        const user = await User.findOne({
-            email: req.user.email
-        });
-        if (user) {
-            res.status(200).json({
-                id: user._id,
-                fullname: user.fullname,
-                email: user.email,
-                mobile: user.mobile,
-                role: user.role,
-                profile_picture: user.profile_picture,
-                is_subscribed: user.is_subscribed
-            })
-        }
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
+router.get('/myprofile', authenticate, async (req, res) => { require('./profile/myProfile').getMyProfile(req,res)});
 
 router.get('/users', authenticate, async (req, res) => {
     try {
@@ -213,56 +61,7 @@ router.get('/users', authenticate, async (req, res) => {
     }
 });
 
-router.put('/updateprofile', [authenticate, validate], async (req, res) => {
-    try {
-
-        if (req.body.email) {
-            if (req.body.email == req.user.email) {
-                res.status(403).json({
-                    error: "Old and new email cannot be same."
-                });
-            } else if (await User.findOne({
-                    email: req.body.email
-                })) {
-                res.status(400).json({
-                    error: "This email is already taken."
-                });
-            }
-
-            return;
-        }
-
-        const user = await User.findOne({
-            email: req.body.email
-        });
-        const {
-            email = user.email, fullname = user.fullname, mobile = user.mobile, is_subscribed = user.is_subscribed
-        } = req.body;
-
-        if (await User.updateOne({
-                email: req.user.email
-            }, {
-                email,
-                fullname,
-                mobile,
-                is_subscribed
-            })) {
-            res.status(200).json({
-                message: "User updated successfully."
-            });
-        } else {
-            res.status(500).json({
-                error: "Internal server error. Try again later."
-            });
-            return;
-        }
-
-    } catch (error) {
-        return res.status(400).json({
-            error: error.message
-        });
-    }
-});
+router.put('/updateprofile', [authenticate, validate], async (req, res) => { require('./profile/updateProfile').updateProfile(req,res)});
 
 router.put('/updateprofilepicture', [authenticate, validate], async (req, res) => {
     await upload(req, res, async (error) => {
@@ -318,63 +117,7 @@ router.put('/updateprofilepictureurl', [authenticate, validate], async (req, res
     }
 });
 
-router.post('/advertisement', [validate, authenticate], async (req, res) => {
-    try {
-        const {
-            property_details : {
-                property_title,
-                property_type,
-                description,
-                n_bhk
-            },
-            address : {
-                city,
-                area_details
-            },
-            quoted_price,
-            is_approved,
-            interested
-
-        } = req.body;
-
- 
-        if (await User.findOne({
-                email: req.user.email
-            }) == null) {
-            res.status(400).json({
-                error: "This author does not exists."
-            })
-        } else {
-            const advertisement = await Advertisement.create({
-                _id: uuid.v4(),
-                property_details : {
-                    property_title,
-                    property_type,
-                    description,
-                    n_bhk
-                },
-                address : {
-                    city,
-                    area_details
-                },
-                quoted_price,
-                is_approved,
-                interested,
-                author: req.user.email
-            });
-
-            res.status(201).json({
-                message: "advertisement created successfully",
-                id: advertisement.id
-            });
-        }
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.message
-        });
-    }
-});
+router.post('/advertisement', [validate, authenticate], async (req, res) => { require('./advertisement/postAdvertisement').postAdvertisement(req,res)});
 
 router.put('/updateadvertisement', [validate, authenticate], async (req, res) => {
     try {
@@ -466,33 +209,9 @@ router.delete('/advertisement', [validate, authenticate], async (req, res) => {
     }
 });
 
-router.get('/advertisements', authenticate , async (req, res) => {
-    try {
-        const advertisements = await Advertisement.find({}).sort();
-        res.status(200).json({
-            advertisements
-        });
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
+router.get('/advertisements', async (req, res) => {require('./advertisement/getAdvertisements').getAdvertisements(req,res)});
 
-router.get('/myadvertisements', authenticate, async (req, res) => {
-    try {
-        const advertisements = await Advertisement.find({
-            author: req.user.email
-        }).sort();
-        res.status(200).json({
-            advertisements
-        });
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
+router.get('/myadvertisements', authenticate, async (req, res) => {require('./advertisement/getMyAdvertisements').getMyAdvertisements(req,res)});
 
 router.get('/advertisement', [validate, authenticate], async (req, res) => {
     try {
@@ -523,13 +242,6 @@ router.get('/advertisement', [validate, authenticate], async (req, res) => {
         });
     }
 });
-
-router.get('/', async (req, res) => {
-    res.status(200).json({
-        message: "This app works"
-    });
-});
-
 
 router.post('/subscription', [validate, authenticate], async (req, res) => {
     try {
@@ -591,5 +303,9 @@ router.get('/subscription', async (req, res) => {
         });
     }
 });
-
+router.get('/', async (req, res) => {
+    res.status(200).json({
+        message: "This app works"
+    });
+});
 module.exports = router;
