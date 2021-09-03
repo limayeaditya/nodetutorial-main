@@ -8,6 +8,7 @@ const advertisementSchema = new mongoose.Schema({
         type: String,
     },
     property_details: {
+        property_title: String,
         property_type : String,
         description : String,
         n_bhk : Number
