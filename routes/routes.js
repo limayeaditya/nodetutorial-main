@@ -11,6 +11,7 @@ const validate = require('../middleware/validation');
 const multer = require('multer');
 const path = require('path');
 const user = require('../models/user');
+const Subscription = require('../models/subscription');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -332,7 +333,7 @@ router.post('/advertisement', [validate, authenticate], async (req, res) => {
             },
             quoted_price,
             is_approved,
-            intrests
+            interested
 
         } = req.body;
 
@@ -358,7 +359,7 @@ router.post('/advertisement', [validate, authenticate], async (req, res) => {
                 },
                 quoted_price,
                 is_approved,
-                intrests,
+                interested,
                 author: req.user.email
             });
 
@@ -391,7 +392,7 @@ router.put('/updateadvertisement', [validate, authenticate], async (req, res) =>
             },
             quoted_price,
             is_approved,
-            intrests
+            interested
 
         } = req.body;
         
@@ -416,7 +417,7 @@ router.put('/updateadvertisement', [validate, authenticate], async (req, res) =>
                 },
                 quoted_price,
                 is_approved,
-                intrests    
+                interested    
             })) {
             res.status(200).json({
                 message: `advertisement ${_id} updated successfully`
@@ -465,7 +466,7 @@ router.delete('/advertisement', [validate, authenticate], async (req, res) => {
     }
 });
 
-router.get('/advertisements', async (req, res) => {
+router.get('/advertisements', authenticate , async (req, res) => {
     try {
         const advertisements = await Advertisement.find({}).sort();
         res.status(200).json({
@@ -499,5 +500,66 @@ router.get('/', async (req, res) => {
     });
 });
 
+
+router.post('/subscription', [validate, authenticate], async (req, res) => {
+    try {
+        const {
+            payment_type,
+            amount,
+            subscription_date,
+            expiry_date,
+            payment_details : {
+                card_number,
+                VPA,
+            }
+        
+
+        } = req.body;
+
+ 
+        if (await User.findOne({
+                email: req.user.email
+            }) == null) {
+            res.status(400).json({
+                error: "This author does not exists."
+            })
+        } else {
+            const subscription = await Subscription.create({
+                _id: uuid.v4(),
+                author: req.user.email,
+                payment_type,
+                amount,
+                subscription_date,
+                expiry_date,
+                payment_details : {
+                    card_number,
+                    VPA
+            }
+            });
+
+            res.status(201).json({
+                message: ` ${req.user.email} subscribed successfully`,
+                id: subscription.id
+            });
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+});
+router.get('/subscription', async (req, res) => {
+    try {
+        const subscription = await Subscription.find({}).sort();
+        res.status(200).json({
+            subscription
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+});
 
 module.exports = router;
