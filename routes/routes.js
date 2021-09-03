@@ -494,9 +494,13 @@ router.get('/myadvertisements', authenticate, async (req, res) => {
     }
 });
 
-router.get('/advertisements/:id', authenticate, async (req, res) => {
+router.get('/advertisement', [validate, authenticate], async (req, res) => {
     try {
-        const _id = req.params.id        
+        const {
+            _id
+        } = req.body;
+
+        
         if (await Advertisement.findOne({
                 _id
             }) == null) {
