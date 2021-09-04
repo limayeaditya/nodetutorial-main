@@ -43,7 +43,7 @@ const registerUser =  async (req,res) => {
             user
         });
 
-    } catch (error) {
+    }catch (error) {
         res.status(500).json({
             error: error.message
         });

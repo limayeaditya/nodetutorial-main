@@ -7,18 +7,15 @@ const updateProfile = async (req,res)=>{
              if (await User.findOne({
                     email: req.body.email
                 })) {
-                    console.log("old and new");
-                res.status(400).json({
-                    error: "This email is already taken."
-                });
-            }
-
-            return;
+                    res.status(400).json({
+                        error: "This email is already taken."
+                    });
+                    }   
+            
         }
-        console.log('HEYYLO');
-
+        
         const user = await User.findOne({
-            email: req.body.email
+            email: req.user.email
         });
         const {
             email = user.email, fullname = user.fullname, mobile = user.mobile

@@ -1,6 +1,6 @@
 const Advertisement = require('../../models/advertisement')
 
-const getAdvertisements = async (req,res)=>{
+const getAllAdvertisements = async (req,res)=>{
     try {
         const advertisements = await Advertisement.find({}).sort();
         res.status(200).json({
@@ -14,5 +14,5 @@ const getAdvertisements = async (req,res)=>{
 }
 
 module.exports = {
-    getAdvertisements
+    getAllAdvertisements
 }

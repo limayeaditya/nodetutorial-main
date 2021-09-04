@@ -12,6 +12,7 @@ const authenticate = async (req, res, next) => {
         } else {
             const decoded = jwt.verify(token, process.env.APP_KEY);
             const user = await User.findOne({email: decoded.email}).select('email');
+            //console.log(user)
             if (user){
                 req.user = user;
                 next();
