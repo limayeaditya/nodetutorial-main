@@ -1,10 +1,8 @@
+const Advertisement = require('../../models/advertisement')
 const getAdvertisement = async (req,res)=>{
     try {
-        const {
-            _id
-        } = req.body;
+        let _id = req.query.id;
 
-        
         if (await Advertisement.findOne({
                 _id
             }) == null) {
