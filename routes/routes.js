@@ -31,7 +31,7 @@ router.get('/advertisements', async (req, res) => {require('./advertisement/getA
 
 router.get('/myadvertisements', authenticate, async (req, res) => {require('./advertisement/getMyAdvertisements').getMyAdvertisements(req,res)});
 
-router.get('/advertisement/',authenticate, async (req, res) => {require('./advertisement/getAdvertisement').getAdvertisement(req,res)});
+router.get('/advertisement/', async (req, res) => {require('./advertisement/getAdvertisement').getAdvertisement(req,res)});
 
 // Subscription Routes
 router.post('/subscription', [validate, authenticate], async (req, res) => {require('./subscription/postSubscription').postSubscription(req,res)});

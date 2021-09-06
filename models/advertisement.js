@@ -4,8 +4,8 @@ const advertisementSchema = new mongoose.Schema({
     _id: {
         type: String
     },
-    author: {
-        type: String,
+    author_details: {
+        type: Object,
     },
     property_details: {
         property_title: String,

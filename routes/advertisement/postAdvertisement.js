@@ -29,6 +29,9 @@ const postAdvertisement = async (req,res) => {
                 error: "This author does not exists."
             })
         } else {
+            const user = await User.findOne({
+                email : req.user.email
+            })
             const advertisement = await Advertisement.create({
                 _id: uuid.v4(),
                 property_details : {
@@ -44,7 +47,7 @@ const postAdvertisement = async (req,res) => {
                 quoted_price,
                 is_approved,
                 interested,
-                author: req.user.email
+                author_details: user
             });
             
             
