@@ -12,7 +12,8 @@ const validation = async (req, res, next) => {
     }
     if (req.body.role) {
         await check('role', 'Enter role').isLength({
-            min: 5
+            max: 5,
+            min : 4
         }).run(req)
     }
 

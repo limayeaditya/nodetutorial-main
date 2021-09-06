@@ -12,8 +12,6 @@ router.put('/changepassword', [validate, authenticate], async (req, res) => {req
 
 router.get('/myprofile', authenticate, async (req, res) => { require('./profile/myProfile').getMyProfile(req,res)});
 
-router.get('/users', authenticate, async (req, res) => {require('./profile/getAllUsers').getAllUsers(req,res)});
-
 router.put('/updateprofile', [authenticate, validate], async (req, res) => { require('./profile/updateProfile').updateProfile(req,res)});
 
 router.put('/updateprofilepicture', [authenticate, validate], async (req, res) => {require('./profile/updateProfilePicture').updateProfilePicture(req,res)});
@@ -25,7 +23,7 @@ router.post('/advertisement', [validate, authenticate], async (req, res) => { re
 
 router.put('/advertisement', [validate, authenticate], async (req, res) => {require('./advertisement/updateAdvertisement').updateaAvertisement(req,res)});
 
-router.delete('/advertisement', [validate, authenticate], async (req, res) => { require('./advertisement/deleteAdverstisement').deleteAdvertisement(req,res)});
+router.delete('/advertisement/', [validate, authenticate], async (req, res) => { require('./advertisement/deleteAdverstisement').deleteAdvertisement(req,res)});
 
 router.get('/advertisements', async (req, res) => {require('./advertisement/getAllAdvertisements').getAllAdvertisements(req,res)});
 
@@ -36,6 +34,11 @@ router.get('/advertisement/', async (req, res) => {require('./advertisement/getA
 // Subscription Routes
 router.post('/subscription', [validate, authenticate], async (req, res) => {require('./subscription/postSubscription').postSubscription(req,res)});
 router.get('/subscription',[authenticate], async (req, res) => {require('./subscription/getSubscription').getSubscription(req,res)});
+// Admin routes
+router.get('/users', authenticate, async (req, res) => {require('./admin/getAllUsers').getAllUsers(req,res)});
+router.delete('/user/', authenticate, async (req, res) => {require('./admin/deleteUser').deleteUser(req,res)});
+router.put('/approve/', authenticate, async (req, res) => {require('./admin/approveAdvertisement').approveAdvertisement(req,res)});
+router.delete('/deleteadvertisement/', [validate, authenticate], async (req, res) => { require('./admin/deleteAdvertisement_Admin').deleteAdvertisement_Admin(req,res)});
 
 // Default route
 router.get('/', async (req, res) => {

@@ -26,7 +26,8 @@ const advertisementSchema = new mongoose.Schema({
         type: Number
     },
     is_approved : {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     interested :{
         type: Number
