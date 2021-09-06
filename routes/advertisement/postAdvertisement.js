@@ -46,7 +46,8 @@ const postAdvertisement = async (req,res) => {
                 interested,
                 author: req.user.email
             });
-
+            
+            
             res.status(201).json({
                 message: "advertisement created successfully",
                 id: advertisement.id
