@@ -1,3 +1,4 @@
+const Advertisement = require('../../models/advertisement')
 const updateaAvertisement = async (req,res)=>{
     try {
         const {

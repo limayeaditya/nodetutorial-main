@@ -41,6 +41,7 @@ BCRYPT_SALT=15
         "profile_picture": null,
         "_id": "9ca44c6c-f90a-4ca5-95e4-96eccdd3c258",
         "fullname": "aditya limaye",
+        "role": "admin"
         "mobile": "9999999999",
         "email": "aditya@limaye.com",
         "password": "$2a$15$pgrja5CO1MtRowk1vkrfVeyPodtTKxAzBJQ5Ho0yl9JdWxjszEPyC",

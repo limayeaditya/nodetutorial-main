@@ -47,7 +47,14 @@ const postAdvertisement = async (req,res) => {
                 quoted_price,
                 is_approved,
                 interested,
-                author_details: user
+                author_details: {
+                    id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    phone: user.phone,
+                    role: user.role,
+
+                }
             });
             
             
