@@ -1,8 +1,7 @@
+const Advertisement = require('../../models/advertisement')
 const deleteAdvertisement = async (req,res)=>{
     try {
-        const {
-            _id
-        } = req.body;
+        let _id = req.query.id;
 
         if (!(_id)) {
             res.status(400).json({
