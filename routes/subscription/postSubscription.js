@@ -24,7 +24,7 @@ const postSubscription = async (req,res)=>{
             const user = await User.findOne({
                 email : req.user.email
             })
-            if(user.is_subscribed != true){
+            if(user.is_subscribed == true){
                 res.status(401).json({
                     message : `${req.user.email} already subscribed`
 
