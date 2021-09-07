@@ -3,7 +3,9 @@ const Advertisement = require('../../models/advertisement')
 const getMyAdvertisements = async (req,res) =>{
     try {
         const advertisements = await Advertisement.find({
-            author: req.user.email
+            author_details: {
+                email: req.user.email
+            }
         }).sort();
         res.status(200).json({
             advertisements
