@@ -11,12 +11,22 @@ const getSubscription = async (req,res)=>{
         //moment construction falls back to js Date(), which is not reliable across all browsers and versions.
         //Some format error yet to be fixed  
         if(moment(today).isAfter(expiry_date)){
+            await User.updateOne({
+                email: req.user.email
+            },{
+                is_subscribed : false
+            })
+            res.status(401).json({
+                message: "Your subscription has expired."
+            })
             
-        }
-        console.log()
-        res.status(200).json({
+        }else{
+            console.log()
+            res.status(200).json({
             subscription
         });
+        }
+        
     } catch (error) {
         res.status(400).json({
             error: error.message
