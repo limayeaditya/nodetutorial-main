@@ -34,7 +34,8 @@ const advertisementSchema = new mongoose.Schema({
         default: false
     },
     interested :{
-        type: Number
+        type: [String]
+         
     },
     author_email: String
 

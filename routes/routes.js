@@ -46,4 +46,9 @@ router.get('/', async (req, res) => {
         message: "This app works"
     });
 });
+
+
+router.post('/addinterestedbuyer', [authenticate], async (req, res) => { require('./contact/addInterestedBuyer').addInterestedBuyer(req,res)});
+router.get('/user/', async (req, res) => {require('./profile/getUserById').getUserById(req,res)});
+
 module.exports = router;

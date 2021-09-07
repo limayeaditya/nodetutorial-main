@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
     is_subscribed:{
         type: Boolean,
         default: false
+    },
+    contacted_ads: {
+        type:[String]
     }
     }, {
         timestamps: true
