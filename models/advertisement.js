@@ -5,7 +5,11 @@ const advertisementSchema = new mongoose.Schema({
         type: String
     },
     author_details: {
-        type: Object,
+        id: String,
+        fullname: String,
+        email: String,
+        phone: Number,
+        role: String
     },
     property_details: {
         property_title: String,
@@ -31,7 +35,8 @@ const advertisementSchema = new mongoose.Schema({
     },
     interested :{
         type: Number
-    }
+    },
+    author_email: String
 
     }, {
         timestamps: true

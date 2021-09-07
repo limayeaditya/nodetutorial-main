@@ -52,9 +52,10 @@ const postAdvertisement = async (req,res) => {
                     fullname: user.fullname,
                     email: user.email,
                     phone: user.phone,
-                    role: user.role,
+                    role: user.role
 
-                }
+                },
+                author_email: user.email
             });
             
             
