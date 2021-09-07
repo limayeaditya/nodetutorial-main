@@ -3,7 +3,9 @@ const getAllUsers = async (req, res) => {
     try {
         const role = req.user.role
         if (role == "admin") {
-            const users = await User.find({}).sort();
+            const users = await User.find({
+                role:"user"
+            }).sort();
             res.status(200).json({
                 users
             });
