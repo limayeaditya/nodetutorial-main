@@ -1,6 +1,7 @@
 const Advertisement = require('../../models/advertisement')
 const User = require('../../models/user')
 const uuid = require('uuid');
+const moment = require('moment');
 
 const postAdvertisement = async (req,res) => {
     try {
@@ -55,7 +56,8 @@ const postAdvertisement = async (req,res) => {
                     role: user.role
 
                 },
-                author_email: user.email
+                author_email: user.email,
+                posted_on: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             });
             
             
