@@ -36,8 +36,8 @@ const postSubscription = async (req,res)=>{
                     author: req.user.email,
                     payment_type,
                     amount,
-                    subscription_date : moment().format("dddd, MMMM Do YYYY").toString(),
-                    expiry_date : moment().add(12,'M').format("dddd, MMMM Do YYYY").toString(),
+                    subscription_date : moment(),
+                    expiry_date : moment().add(1,'Y').toString(),
                     payment_details : {
                         card_number,
                         VPA
