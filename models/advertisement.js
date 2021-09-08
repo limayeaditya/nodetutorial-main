@@ -22,9 +22,9 @@ const advertisementSchema = new mongoose.Schema({
         city : String,
         area_details : String
     },
-    images : {
-        type: [String],
-        default: []
+    image : {
+        type:String
+
     },
     quoted_price : {
         type: Number
