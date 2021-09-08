@@ -18,7 +18,8 @@ const postAdvertisement = async (req,res) => {
             },
             quoted_price,
             is_approved,
-            interested
+            interested,
+            image
 
         } = req.body;
 
@@ -57,6 +58,7 @@ const postAdvertisement = async (req,res) => {
 
                 },
                 author_email: user.email,
+                image,
                 posted_on: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             });
             

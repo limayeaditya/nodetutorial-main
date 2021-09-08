@@ -10,7 +10,8 @@ const registerUser =  async (req,res) => {
             email,
             password,
             role,
-            is_subscribed
+            is_subscribed,
+            profile_picture
         } = req.body;
 
         if (!(fullname && mobile && email && password)) {
@@ -35,7 +36,8 @@ const registerUser =  async (req,res) => {
             email,
             password: encrypted_password,
             role,
-            is_subscribed
+            is_subscribed,
+            profile_picture
         });
 
         res.status(201).json({

@@ -15,7 +15,8 @@ const updateaAvertisement = async (req,res)=>{
             },
             quoted_price,
             is_approved,
-            interested
+            interested,
+            image
 
         } = req.body;
         
@@ -40,7 +41,8 @@ const updateaAvertisement = async (req,res)=>{
                 },
                 quoted_price,
                 is_approved,
-                interested    
+                interested,
+                image 
             })) {
             res.status(200).json({
                 message: `advertisement ${_id} updated successfully`
