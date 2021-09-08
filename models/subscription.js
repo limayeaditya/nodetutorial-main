@@ -31,7 +31,7 @@ const subscriptionSchema = new mongoose.Schema({
     }
 
     }, {
-        timestamps: true
+        timestamps: false
     });
 
 module.exports = mongoose.model('subscription', subscriptionSchema)
