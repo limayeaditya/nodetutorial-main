@@ -24,7 +24,7 @@ const advertisementSchema = new mongoose.Schema({
     },
     images : {
         type: [String],
-        default: null
+        default: []
     },
     quoted_price : {
         type: Number
@@ -34,7 +34,8 @@ const advertisementSchema = new mongoose.Schema({
         default: false
     },
     interested :{
-        type: [String]
+        type: [String],
+        default:[]
          
     },
     author_email: String

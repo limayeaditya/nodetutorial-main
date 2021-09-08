@@ -30,7 +30,8 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     contacted_ads: {
-        type:[String]
+        type:[String],
+        default:[]
     }
     }, {
         timestamps: true
