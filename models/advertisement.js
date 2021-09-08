@@ -38,7 +38,8 @@ const advertisementSchema = new mongoose.Schema({
         default:[]
          
     },
-    author_email: String
+    author_email: String,
+    posted_on: String
 
     }, {
         timestamps: true

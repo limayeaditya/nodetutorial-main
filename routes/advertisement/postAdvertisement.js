@@ -17,7 +17,6 @@ const postAdvertisement = async (req,res) => {
                 area_details
             },
             quoted_price,
-            is_approved,
             interested,
             image
 
@@ -47,7 +46,7 @@ const postAdvertisement = async (req,res) => {
                     area_details
                 },
                 quoted_price,
-                is_approved,
+                is_approved: false,
                 interested,
                 author_details: {
                     id: user._id,
@@ -59,13 +58,14 @@ const postAdvertisement = async (req,res) => {
                 },
                 author_email: user.email,
                 image,
-                posted_on: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+                posted_on: moment().format("dddd, MMMM Do YYYY").toString()
             });
             
             
             res.status(201).json({
                 message: "advertisement created successfully",
-                id: advertisement.id
+                id: advertisement.id,
+                advertisement
             });
         }
 
