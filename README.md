@@ -281,7 +281,7 @@ BCRYPT_SALT=15
             "_id": "eafd91a8-8bf7-41c9-8997-a130686f2d5b",
             "quoted_price": 8595956465161321,
             "is_approved": false,
-            "author": "john@ahmed.com",
+            "author": "john@doe.com",
             "createdAt": "2021-09-02T13:20:49.669Z",
             "updatedAt": "2021-09-02T13:26:34.217Z",
             "__v": 0
@@ -316,7 +316,7 @@ BCRYPT_SALT=15
             "_id": "eafd91a8-8bf7-41c9-8997-a130686f2d5b",
             "quoted_price": 8595956465161321,
             "is_approved": false,
-            "author": "john@ahmed.com",
+            "author": "john@doe.com",
             "createdAt": "2021-09-02T13:20:49.669Z",
             "updatedAt": "2021-09-02T13:26:34.217Z",
             "__v": 0
