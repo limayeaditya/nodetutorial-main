@@ -16,7 +16,7 @@ const updateaAvertisement = async (req,res)=>{
             quoted_price,
             interested,
             image,
-            update_on
+            
 
         } = req.body;
         
@@ -42,7 +42,6 @@ const updateaAvertisement = async (req,res)=>{
                 quoted_price,
                 interested,
                 image,
-                update_on: moment().format("dddd, MMMM Do YYYY").toString()
             })) {
             res.status(200).json({
                 message: `advertisement ${_id} updated successfully`
