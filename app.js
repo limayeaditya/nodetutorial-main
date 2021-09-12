@@ -11,6 +11,10 @@ app.use(express.static(__dirname));
 app.use(cors());
 
 
+// Serving company logo
+app.get("/logo.jpg", (req, res) => {
+  res.sendFile(path.join(__dirname, "logo.jpg"));
+});
 
 connection();
 

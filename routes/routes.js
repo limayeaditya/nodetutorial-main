@@ -40,6 +40,10 @@ router.delete('/user/', authenticate, async (req, res) => {require('./admin/dele
 router.put('/approve/', authenticate, async (req, res) => {require('./admin/approveAdvertisement').approveAdvertisement(req,res)});
 router.delete('/deleteadvertisement/', [validate, authenticate], async (req, res) => { require('./admin/deleteAdvertisement_Admin').deleteAdvertisement_Admin(req,res)});
 
+//Payment Routes
+router.post('/razorpay', async (req, res) => {require('./payment/payment').makePayment(req, res)});
+router.post('/capture', async (req, res) => {require('./payment/payment').capturePayment(req, res)});
+
 // Default route
 router.get('/', async (req, res) => {
     res.status(200).json({
