@@ -35,8 +35,7 @@ const advertisementSchema = new mongoose.Schema({
         default: false
     },
     interested :{
-        type: [String],
-        default:[]
+        type: [String]
          
     },
     author_email: String,
