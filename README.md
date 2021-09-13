@@ -12,7 +12,7 @@ npm run dev
 ## Environment Variable
 ```bash
 APP_KEY=
-APP_PORT=3000
+APP_PORT=5000
 MONGO_URI=
 BCRYPT_SALT=15
 ```
@@ -131,7 +131,7 @@ BCRYPT_SALT=15
 }
 ```
 
-### GET: /self
+### GET: /myprofile
 #### Get details of logged in user
 
 ```javascript
