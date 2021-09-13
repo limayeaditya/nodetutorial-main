@@ -5,7 +5,7 @@ const updateaAvertisement = async (req, res) => {
   try {
     const {
       _id,
-      property_details: { property_title, property_type, description, n_bhk },
+      property_details: { property_title, property_type, description, n_bhk, carpet_area },
       address: { city, area_details },
       quoted_price,
       interested,
@@ -29,6 +29,7 @@ const updateaAvertisement = async (req, res) => {
             property_type,
             description,
             n_bhk,
+            carpet_area
           },
           address: {
             city,

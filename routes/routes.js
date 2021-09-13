@@ -19,11 +19,11 @@ router.put('/updateprofilepicture', [authenticate, validate], async (req, res) =
 router.put('/updateprofilepictureurl', [authenticate, validate], async (req, res) => {require('./profile/updateProfilePictureUrl').updateProfilePictureUrl(req,res)});
 
 // Advertisment Routes
-router.post('/advertisement', [validate, authenticate], async (req, res) => { require('./advertisement/postAdvertisement').postAdvertisement(req,res)});
+router.post('/advertisement', [authenticate], async (req, res) => { require('./advertisement/postAdvertisement').postAdvertisement(req,res)});
 
-router.put('/advertisement', [validate, authenticate], async (req, res) => {require('./advertisement/updateAdvertisement').updateaAvertisement(req,res)});
+router.put('/advertisement', [ authenticate], async (req, res) => {require('./advertisement/updateAdvertisement').updateaAvertisement(req,res)});
 
-router.delete('/advertisement/', [validate, authenticate], async (req, res) => { require('./advertisement/deleteAdverstisement').deleteAdvertisement(req,res)});
+router.delete('/advertisement/', [ authenticate], async (req, res) => { require('./advertisement/deleteAdverstisement').deleteAdvertisement(req,res)});
 
 router.get('/advertisements', async (req, res) => {require('./advertisement/getAllAdvertisements').getAllAdvertisements(req,res)});
 
@@ -32,7 +32,7 @@ router.get('/myadvertisements', authenticate, async (req, res) => {require('./ad
 router.get('/advertisement/', async (req, res) => {require('./advertisement/getAdvertisement').getAdvertisement(req,res)});
 
 // Subscription Routes
-router.post('/subscription', [validate, authenticate], async (req, res) => {require('./subscription/postSubscription').postSubscription(req,res)});
+router.post('/subscription', [ authenticate], async (req, res) => {require('./subscription/postSubscription').postSubscription(req,res)});
 router.get('/subscription',[authenticate], async (req, res) => {require('./subscription/getSubscription').getSubscription(req,res)});
 // Admin routes
 router.get('/users', authenticate, async (req, res) => {require('./admin/getAllUsers').getAllUsers(req,res)});

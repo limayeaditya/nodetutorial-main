@@ -15,7 +15,8 @@ const advertisementSchema = new mongoose.Schema({
         property_title: String,
         property_type : String,
         description : String,
-        n_bhk : Number
+        n_bhk : Number,
+        carpet_area: Number
 
     },
     address : {

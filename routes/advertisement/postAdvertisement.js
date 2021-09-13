@@ -10,7 +10,8 @@ const postAdvertisement = async (req,res) => {
                 property_title,
                 property_type,
                 description,
-                n_bhk
+                n_bhk,
+                carpet_area
             },
             address : {
                 city,
@@ -39,7 +40,8 @@ const postAdvertisement = async (req,res) => {
                     property_title,
                     property_type,
                     description,
-                    n_bhk
+                    n_bhk,
+                    carpet_area
                 },
                 address : {
                     city,
