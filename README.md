@@ -1,20 +1,11 @@
-# Node-Express-Mongo Login System
+# Node-Express-Mongo Property Ads Api
 
-Login system created using Node, Express, Mongo. Uses JWT for token management and bcrypt for password hashing.
 
 ## Installation
 
 ```bash
 npm install
 npm run dev
-```
-
-## Environment Variable
-```bash
-APP_KEY=
-APP_PORT=5000
-MONGO_URI=
-BCRYPT_SALT=15
 ```
 
 ## API Reference
